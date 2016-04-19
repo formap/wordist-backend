@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var http = require('http');
 var cors = require('cors');
-var models = require('./app/models/index.js');
+var models = require('./models/index.js');
 var config = require('./config.json');
 
 var app = express();
@@ -14,10 +14,10 @@ models.initialize();
 app.use(bodyParser.json());
 app.use(cors());
 
-var authRouter = require('./app/controllers/auth.js');
+var authRouter = require('./controllers/auth.js');
 app.use('/auth', authRouter);
 
-var usersRouter = require('./app/controllers/users.js');
+var usersRouter = require('./controllers/users.js');
 app.use('/users', usersRouter);
 
 http.createServer(app).listen(port, function() {

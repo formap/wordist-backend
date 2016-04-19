@@ -1,6 +1,6 @@
 var Promise = require('bluebird');
 var express_jwt = require('express-jwt');
-var config = require('../../config.json');
+var config = require('../config.json');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 Promise.promisifyAll(User);

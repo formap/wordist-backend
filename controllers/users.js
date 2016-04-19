@@ -2,7 +2,7 @@ var Promise = require('bluebird');
 var express_jwt = require('express-jwt');
 var wordsRouter = require('./words.js');
 var tokenAuth = require('./tokenAuth.js');
-var config = require('../../config.json');
+var config = require('../config.json');
 var User = require('mongoose').model('User');
 
 var usersRouter = require('express').Router();
