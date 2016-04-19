@@ -17,6 +17,9 @@ app.use(cors());
 var authRouter = require('./app/controllers/auth.js');
 app.use('/auth', authRouter);
 
+var usersRouter = require('./app/controllers/users.js');
+app.use('/users', usersRouter);
+
 http.createServer(app).listen(port, function() {
   console.log('Connection done! Listening on port ' + port);
 });
