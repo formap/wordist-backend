@@ -3,13 +3,12 @@ var bodyParser = require('body-parser');
 var http = require('http');
 var cors = require('cors');
 var models = require('./models/index.js');
-var config = require('./config.json');
 
 var app = express();
 var port = process.env.PORT || 3000;
 
 var mongoose = require('mongoose');
-mongoose.connect(config.db.path);
+mongoose.connect(process.env.DB_PATH);
 models.initialize();
 app.use(bodyParser.json());
 app.use(cors());

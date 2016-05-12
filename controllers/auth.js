@@ -1,7 +1,6 @@
 var Promise = require('bluebird');
 var bcrypt = Promise.promisifyAll(require('bcrypt'));
 var tokenAuth = require('./tokenAuth.js');
-var config = require('../config.json');
 var authRouter = require('express').Router();
 var User = require('mongoose').model('User');
 Promise.promisifyAll(User);

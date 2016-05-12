@@ -1,6 +1,5 @@
 var Promise = require('bluebird');
 var express_jwt = require('express-jwt');
-var config = require('../config.json');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 Promise.promisifyAll(User);
@@ -11,7 +10,7 @@ Promise.promisifyAll(Word.prototype);
 
 var wordsRouter = require('express').Router({mergeParams: true});
 
-wordsRouter.get('/', express_jwt({'secret': config.jwt_secret}), function(req, res) {
+wordsRouter.get('/', express_jwt({'secret': process.env.SECRET}), function(req, res) {
   var id = req.params.user_id;
   User.findOne({'_id': id})
   .populate('words')
@@ -25,7 +24,7 @@ wordsRouter.get('/', express_jwt({'secret': config.jwt_secret}), function(req, r
   });
 });
 
-wordsRouter.post('/', express_jwt({'secret': config.jwt_secret}), function(req, res) {
+wordsRouter.post('/', express_jwt({'secret': process.env.SECRET}), function(req, res) {
   var id = req.params.user_id;
   var word = req.body.word;
   var definition = req.body.definition;
