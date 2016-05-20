@@ -46,8 +46,8 @@ authRouter.post('/login', function(req, res) {
 
   User.findOneAsync({email: email})
   .then(function(result) {
-    user = result.toObject();
     if(!result) return res.status(404).send('Cannot find user with that username');
+    user = result.toObject();
     return bcrypt.compareAsync(password, user.password);
   })
   .then(function(result) {
