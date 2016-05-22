@@ -1,8 +1,11 @@
 var Promise = require('bluebird');
+var bcrypt = Promise.promisifyAll(require('bcrypt'));
 var express_jwt = require('express-jwt');
 var wordsRouter = require('./words.js');
 var tokenAuth = require('./tokenAuth.js');
 var User = require('mongoose').model('User');
+Promise.promisifyAll(User);
+Promise.promisifyAll(User.prototype);
 
 var usersRouter = require('express').Router();
 
@@ -21,7 +24,7 @@ usersRouter.use('/:user_id', function(req, res, next) {
 
 usersRouter.use('/:user_id/words', wordsRouter);
 
-usersRouter.put('/:user_id', function(req, res) {
+usersRouter.put('/:user_id', express_jwt({'secret': process.env.SECRET}), function(req, res) {
   var id = req.params.user_id;
   var oldPassword = req.body.oldPassword;
   var password = req.body.password;
@@ -41,7 +44,8 @@ usersRouter.put('/:user_id', function(req, res) {
     res.status(200).send({'error': false, 'message': 'Successfully updated user info'});
   })
   .catch(function(err) {
-    res.status(500).send({'error': true, 'message': 'Error completing request'});
+    console.log(err);
+    res.status(500).json(err);
   });
 })
 
