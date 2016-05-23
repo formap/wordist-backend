@@ -38,14 +38,13 @@ usersRouter.put('/:user_id', express_jwt({'secret': process.env.SECRET}), functi
   .then(function(result) {
     if (!result) return res.status(401).send({'error': true, 'message': 'Unauthorized'});
     user.password = password;
-    return user.saveAsync();
+    return user.save();
   })
   .then(function(newUser) {
     res.status(200).send({'error': false, 'message': 'Successfully updated user info'});
   })
   .catch(function(err) {
-    console.log(err);
-    res.status(500).json(err);
+    res.status(500).json({'error': true, 'message': err);
   });
 })
 
