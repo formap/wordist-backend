@@ -10,10 +10,12 @@ Promise.promisifyAll(User.prototype);
 var usersRouter = require('express').Router();
 
 usersRouter.use('/:user_id', function(req, res, next) {
+  if (req.method == 'OPTIONS') return next();
   var id = req.params.user_id;
   var reqToken = req.headers['authorization'];
   var credentials = reqToken.split(" ").pop();
   tokenAuth.verifyToken(credentials, function(err, token) {
+    if (err) throw err;
     if (token._id == id) {
       next();
     } else {
