@@ -37,14 +37,16 @@ usersRouter.put('/:user_id', express_jwt({'secret': process.env.SECRET}), functi
   })
   .then(function(result) {
     if (!result) return res.status(401).send({'error': true, 'message': 'Unauthorized'});
-    user.password = password;
-    return user.save();
+    return bcrypt.hashAsync(password, 12);
+  })
+  .then(function(hash) {
+    return User.updateAsync({_id: user._id}, {$set: {password: hash}});
   })
   .then(function(newUser) {
     res.status(200).send({'error': false, 'message': 'Successfully updated user info'});
   })
   .catch(function(err) {
-    res.status(500).json({'error': true, 'message': err);
+    res.status(500).send({'error': true, 'message': err});
   });
 })
 
